@@ -6,6 +6,10 @@ export default defineEventHandler(async (event) => {
     const { query } = getQuery(event);
     const body = await readBody(event);
 
+    if (!query || !body) {
+      throw new Error("Missing query or body");
+    }
+
     const docRef = await add(query.col as string, body);
 
     return { result: docRef };
